@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 ironhack. All rights reserved.
 //
 
-#import "DetailViewController.h"
+#import "AgentEditViewController.h"
 #import "AssessmentManager.h"
 
 
-@interface DetailViewController ()
+@interface AgentEditViewController ()
 - (void)configureView;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UILabel *destructionPowerAmount;
@@ -24,7 +24,7 @@
 @property (strong, nonatomic) NSArray *motivationsArray;
 @end
 
-@implementation DetailViewController
+@implementation AgentEditViewController
 
 //static NSArray *const dpsArray = @[@"Pussy", @"Weak", @"Hurts a little", @"Bad guy", @"Destructor"];
 //static NSArray *const descriptionArray = @[@"No Way", @"Pussy", @"Not Bad", @"OK", @"Serial killer"];

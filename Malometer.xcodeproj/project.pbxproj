@@ -16,8 +16,8 @@
 		3FD5F190196166BA00488778 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5F18F196166BA00488778 /* AppDelegate.m */; };
 		3FD5F193196166BA00488778 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FD5F191196166BA00488778 /* Main.storyboard */; };
 		3FD5F196196166BA00488778 /* Malometer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5F194196166BA00488778 /* Malometer.xcdatamodeld */; };
-		3FD5F199196166BA00488778 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5F198196166BA00488778 /* MasterViewController.m */; };
-		3FD5F19C196166BA00488778 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5F19B196166BA00488778 /* DetailViewController.m */; };
+		3FD5F199196166BA00488778 /* AgentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5F198196166BA00488778 /* AgentsViewController.m */; };
+		3FD5F19C196166BA00488778 /* AgentEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5F19B196166BA00488778 /* AgentEditViewController.m */; };
 		3FD5F19E196166BA00488778 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FD5F19D196166BA00488778 /* Images.xcassets */; };
 		3FD5F1A5196166BA00488778 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FD5F1A4196166BA00488778 /* XCTest.framework */; };
 		3FD5F1A6196166BA00488778 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FD5F17D196166BA00488778 /* Foundation.framework */; };
@@ -53,10 +53,10 @@
 		3FD5F18F196166BA00488778 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		3FD5F192196166BA00488778 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3FD5F195196166BA00488778 /* Malometer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Malometer.xcdatamodel; sourceTree = "<group>"; };
-		3FD5F197196166BA00488778 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		3FD5F198196166BA00488778 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		3FD5F19A196166BA00488778 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		3FD5F19B196166BA00488778 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		3FD5F197196166BA00488778 /* AgentsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AgentsViewController.h; sourceTree = "<group>"; };
+		3FD5F198196166BA00488778 /* AgentsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AgentsViewController.m; sourceTree = "<group>"; };
+		3FD5F19A196166BA00488778 /* AgentEditViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AgentEditViewController.h; sourceTree = "<group>"; };
+		3FD5F19B196166BA00488778 /* AgentEditViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AgentEditViewController.m; sourceTree = "<group>"; };
 		3FD5F19D196166BA00488778 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3FD5F1A3196166BA00488778 /* MalometerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MalometerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FD5F1A4196166BA00488778 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -133,10 +133,10 @@
 				3FD5F18E196166BA00488778 /* AppDelegate.h */,
 				3FD5F18F196166BA00488778 /* AppDelegate.m */,
 				3FD5F191196166BA00488778 /* Main.storyboard */,
-				3FD5F197196166BA00488778 /* MasterViewController.h */,
-				3FD5F198196166BA00488778 /* MasterViewController.m */,
-				3FD5F19A196166BA00488778 /* DetailViewController.h */,
-				3FD5F19B196166BA00488778 /* DetailViewController.m */,
+				3FD5F197196166BA00488778 /* AgentsViewController.h */,
+				3FD5F198196166BA00488778 /* AgentsViewController.m */,
+				3FD5F19A196166BA00488778 /* AgentEditViewController.h */,
+				3FD5F19B196166BA00488778 /* AgentEditViewController.m */,
 				3FD5F19D196166BA00488778 /* Images.xcassets */,
 				3FD5F194196166BA00488778 /* Malometer.xcdatamodeld */,
 				3FD5F1BB1961752A00488778 /* Agent.h */,
@@ -275,8 +275,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FD5F19C196166BA00488778 /* DetailViewController.m in Sources */,
-				3FD5F199196166BA00488778 /* MasterViewController.m in Sources */,
+				3FD5F19C196166BA00488778 /* AgentEditViewController.m in Sources */,
+				3FD5F199196166BA00488778 /* AgentsViewController.m in Sources */,
 				3FD5F1C1196181A500488778 /* AssessmentManager.m in Sources */,
 				3FD5F190196166BA00488778 /* AppDelegate.m in Sources */,
 				3FD5F1BD1961752A00488778 /* Agent.m in Sources */,

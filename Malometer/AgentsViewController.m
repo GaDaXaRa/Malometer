@@ -6,18 +6,18 @@
 //  Copyright (c) 2014 ironhack. All rights reserved.
 //
 
-#import "MasterViewController.h"
+#import "AgentsViewController.h"
 
 #import "Agent.h"
-#import "DetailViewController.h"
+#import "AgentEditViewController.h"
 
 static NSString *const detailSegueName = @"CreateAgent";
 
-@interface MasterViewController ()
+@interface AgentsViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 @end
 
-@implementation MasterViewController
+@implementation AgentsViewController
 
 - (void)awakeFromNib
 {
@@ -90,7 +90,7 @@ static NSString *const detailSegueName = @"CreateAgent";
         }
         
         UINavigationController *nextController = [segue destinationViewController];
-        DetailViewController *detailController = [nextController.viewControllers firstObject];
+        AgentEditViewController *detailController = [nextController.viewControllers firstObject];
         detailController.delegate = self;
         detailController.agent = agent;
     }

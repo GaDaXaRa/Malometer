@@ -11,7 +11,7 @@
 #import <CoreData/CoreData.h>
 #import "ModifiedAgentDataDelegate.h"
 
-@interface MasterViewController : UITableViewController <NSFetchedResultsControllerDelegate, ModifiedAgentDataDelegate>
+@interface AgentsViewController : UITableViewController <NSFetchedResultsControllerDelegate, ModifiedAgentDataDelegate>
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;

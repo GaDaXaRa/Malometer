@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ModifiedAgentDataDelegate.h"
 
-@interface DetailViewController : UIViewController
+@interface AgentEditViewController : UIViewController
 
 @property (strong, nonatomic) Agent *agent;
 @property (weak, nonatomic)id<ModifiedAgentDataDelegate> delegate;
