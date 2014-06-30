@@ -19,16 +19,13 @@
 @property (weak, nonatomic) IBOutlet UIStepper *motivationStep;
 @property (weak, nonatomic) IBOutlet UILabel *agentDescription;
 
-@property (strong, nonatomic) NSArray *descriptionArray;
-@property (strong, nonatomic) NSArray *dpsArray;
-@property (strong, nonatomic) NSArray *motivationsArray;
 @end
 
 @implementation AgentEditViewController
 
-//static NSArray *const dpsArray = @[@"Pussy", @"Weak", @"Hurts a little", @"Bad guy", @"Destructor"];
-//static NSArray *const descriptionArray = @[@"No Way", @"Pussy", @"Not Bad", @"OK", @"Serial killer"];
-//static NSArray *const motivationsArray = @[@"Fucking idiot", @"Rarely awake", @"Ok, not bad", @"Good mentalitation", @"Focused in destruction"];
+static NSArray *dpsArray;
+static NSArray *descriptionArray;
+static NSArray *motivationsArray;
 
 #pragma mark - Managing the detail item
 
@@ -37,7 +34,6 @@
     if (_agent != newDetailItem) {
         _agent = newDetailItem;
         
-        // Update the view.
         [self configureView];
     }
 }
@@ -102,13 +98,13 @@
 
 - (void)refreshMotivationText {
     NSUInteger motivationValue = [[NSNumber numberWithDouble:self.motivationStep.value] integerValue];
-    self.motivationAmount.text = self.motivationsArray[motivationValue];
+    self.motivationAmount.text = motivationsArray[motivationValue];
     [self refreshAgentDescription];
 }
 
 - (void)refreshDestructionText {
     NSUInteger destructionValue = [[NSNumber numberWithDouble:self.destructionPowerStep.value] integerValue];
-    self.destructionPowerAmount.text = self.dpsArray[destructionValue];
+    self.destructionPowerAmount.text = dpsArray[destructionValue];
     [self refreshAgentDescription];
 }
 
@@ -116,19 +112,19 @@
     NSUInteger motivationValue = [[NSNumber numberWithDouble:self.motivationStep.value] integerValue];
     NSUInteger destructionValue = [[NSNumber numberWithDouble:self.destructionPowerStep.value] integerValue];
     NSUInteger assessmentValue = [AssessmentManager assesmentForDestructionPower:destructionValue andMotivation:motivationValue];
-    self.agentDescription.text = self.descriptionArray[assessmentValue];
+    self.agentDescription.text = descriptionArray[assessmentValue];
 }
 
 - (void)buildAgentDescriptionArray {
-    self.descriptionArray = @[@"No Way", @"Pussy", @"Not Bad", @"OK", @"Serial killer"];
+    descriptionArray = @[@"No Way", @"Pussy", @"Not Bad", @"OK", @"Serial killer"];
 }
 
 - (void)buildDpsArray {
-    self.dpsArray = @[@"Pussy", @"Weak", @"Hurts a little", @"Bad guy", @"Destructor"];
+    dpsArray = @[@"Pussy", @"Weak", @"Hurts a little", @"Bad guy", @"Destructor"];
 }
 
 - (void)buildMotivationsArray {
-    self.motivationsArray = @[@"Fucking idiot", @"Rarely awake", @"Ok, not bad", @"Good mentalitation", @"Focused in destruction"];
+    motivationsArray = @[@"Fucking idiot", @"Rarely awake", @"Ok, not bad", @"Good mentalitation", @"Focused in destruction"];
 }
 
 @end
