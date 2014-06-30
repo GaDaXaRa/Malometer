@@ -60,6 +60,7 @@ static NSArray *motivationsArray;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.title = self.agent.name;
     [self addObserver:self forKeyPath:@"agent.destructionPower" options:0 context:nil];
     [self addObserver:self forKeyPath:@"agent.motivation" options:0 context:nil];
     [self addObserver:self forKeyPath:@"agent.assessment" options:0 context:nil];

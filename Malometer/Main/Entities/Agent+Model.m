@@ -16,6 +16,21 @@ NSString *const assessmentKey = @"assessment";
 
 @implementation Agent (Model)
 
++ (NSFetchRequest *)requestAllWithOrder:(NSString *)orderKey ascending:(BOOL)ascending inManagedObjectContext:(NSManagedObjectContext *)context {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([Agent class]) inManagedObjectContext:context];
+    
+    [fetchRequest setEntity:entity];
+    [fetchRequest setFetchBatchSize:20];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:orderKey ascending:ascending];
+    NSArray *sortDescriptors = @[sortDescriptor];
+    
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    return fetchRequest;
+}
+
 - (void)setMotivation:(NSNumber *)motivation {
     [self willChangeValueForKey:motivationKey];
     [self setPrimitiveValue:motivation forKey:motivationKey];
@@ -28,6 +43,10 @@ NSString *const assessmentKey = @"assessment";
     [self setPrimitiveValue:destructionPower forKey:destructionPowerKey];
     [self didChangeValueForKey:destructionPowerKey];
     [self refreshAssement];
+}
+
+- (NSNumber *)assessment {
+    return [self assesmentFormula];
 }
 
 - (void)refreshAssement {

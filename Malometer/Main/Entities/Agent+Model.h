@@ -16,4 +16,6 @@ UIKIT_EXTERN NSString *const assessmentKey;
 
 @interface Agent (Model)
 
++ (NSFetchRequest *)requestAllWithOrder:(NSString *)orderKey ascending:(BOOL)ascending inManagedObjectContext:(NSManagedObjectContext *)context;
+
 @end
