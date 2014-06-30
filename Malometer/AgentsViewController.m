@@ -192,7 +192,7 @@ static NSString *const detailSegueName = @"CreateAgent";
 #pragma mark -
 #pragma mark ModifiedAgentData Delegate
 
-- (void)controller:(UIViewController *)controller modifiedData:(BOOL)modified {
+- (void)controller:(AgentEditViewController *)controller modifiedData:(BOOL)modified {
     [self.managedObjectContext.undoManager setActionName:@"Evil editing"];
     [self.managedObjectContext.undoManager endUndoGrouping];
     if (modified) {

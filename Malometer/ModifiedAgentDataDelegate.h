@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Agent.h"
+
+@class AgentEditViewController;
 
 @protocol ModifiedAgentDataDelegate <NSObject>
-- (void)controller:(UIViewController *)controller modifiedData:(BOOL)modified;
+- (void)controller:(AgentEditViewController *)controller modifiedData:(BOOL)modified;
 @end
