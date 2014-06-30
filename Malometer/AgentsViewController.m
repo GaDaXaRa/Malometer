@@ -185,8 +185,8 @@ static NSString *const detailSegueName = @"CreateAgent";
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [object valueForKey:@"name"];
+    Agent *agent = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    cell.textLabel.text = agent.name;
 }
 
 #pragma mark -

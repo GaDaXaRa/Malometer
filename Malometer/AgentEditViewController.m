@@ -44,9 +44,9 @@ static NSArray *motivationsArray;
     [self buildDpsArray];
     [self buildMotivationsArray];
     if (self.agent) {
-        self.motivationStep.value = [[self.agent valueForKey:@"motivation"] integerValue];
-        self.destructionPowerStep.value = [[self.agent valueForKey:@"destructionPower"] integerValue];
-        self.nameTextField.text = [self.agent valueForKey:@"name"];
+        self.motivationStep.value = [self.agent.motivation integerValue];
+        self.destructionPowerStep.value = [self.agent.destructionPower integerValue];
+        self.nameTextField.text = self.agent.name;
         [self refreshMotivationText];
         [self refreshDestructionText];
     }
@@ -91,9 +91,9 @@ static NSArray *motivationsArray;
 #pragma mark Helping Methods
 
 - (void)assignAgentValues {
-    [self.agent setValue:[NSNumber numberWithDouble:self.motivationStep.value] forKey:@"motivation"];
-    [self.agent setValue:[NSNumber numberWithDouble:self.destructionPowerStep.value] forKey:@"destructionPower"];
-    [self.agent setValue:self.nameTextField.text forKey:@"name"];
+    self.agent.motivation = [NSNumber numberWithDouble:self.motivationStep.value];
+    self.agent.destructionPower = [NSNumber numberWithDouble:self.destructionPowerStep.value];
+    self.agent.name = self.nameTextField.text;
 }
 
 - (void)refreshMotivationText {
@@ -116,7 +116,7 @@ static NSArray *motivationsArray;
 }
 
 - (void)buildAgentDescriptionArray {
-    descriptionArray = @[@"No Way", @"Pussy", @"Not Bad", @"OK", @"Serial killer"];
+    descriptionArray = @[@"No Way", @"Pussy", @"Not Bad", @"Will contract", @"Serial killer"];
 }
 
 - (void)buildDpsArray {
