@@ -28,6 +28,7 @@ static NSString *const detailEditSegueName = @"EditAgent";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"Malometer";
 }
 
 - (void)didReceiveMemoryWarning

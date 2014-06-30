@@ -36,21 +36,8 @@ static NSArray *motivationsArray;
     }
 }
 
-- (void)configureView
-{
-    self.nameTextField.delegate = self;
-    [self buildAgentDescriptionArray];
-    [self buildDpsArray];
-    [self buildMotivationsArray];
-    if (self.agent) {
-        self.motivationStep.value = [self.agent.motivation integerValue];
-        self.destructionPowerStep.value = [self.agent.destructionPower integerValue];
-        self.nameTextField.text = self.agent.name;
-        [self refreshMotivationText];
-        [self refreshDestructionText];
-        [self refreshAgentDescription];
-    }
-}
+#pragma mark -
+#pragma mark View lifecycle
 
 - (void)viewDidLoad
 {
@@ -60,22 +47,46 @@ static NSArray *motivationsArray;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.title = self.agent.name;
-    [self addObserver:self forKeyPath:@"agent.destructionPower" options:0 context:nil];
-    [self addObserver:self forKeyPath:@"agent.motivation" options:0 context:nil];
-    [self addObserver:self forKeyPath:@"agent.assessment" options:0 context:nil];
+    [self addObservers];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+    [self removeObservers];
+}
+
+- (void)configureView
+{
+    self.nameTextField.delegate = self;
+    [self buildAgentDescriptionArray];
+    [self buildDpsArray];
+    [self buildMotivationsArray];
+    if (self.agent) {
+        self.title = self.agent.name;
+        self.motivationStep.value = [self.agent.motivation integerValue];
+        self.destructionPowerStep.value = [self.agent.destructionPower integerValue];
+        self.nameTextField.text = self.agent.name;
+        [self refreshMotivationText];
+        [self refreshDestructionText];
+        [self refreshAgentDescription];
+    }
+}
+
+#pragma mark -
+#pragma mark Key Value Observing
+
+- (void)addObservers {
+    [self addObserver:self forKeyPath:@"agent.destructionPower" options:0 context:nil];
+    [self addObserver:self forKeyPath:@"agent.motivation" options:0 context:nil];
+    [self addObserver:self forKeyPath:@"agent.assessment" options:0 context:nil];
+    [self addObserver:self forKeyPath:@"agent.name" options:0 context:nil];
+}
+
+- (void)removeObservers {
     [self removeObserver:self forKeyPath:@"agent.destructionPower"];
     [self removeObserver:self forKeyPath:@"agent.motivation"];
     [self removeObserver:self forKeyPath:@"agent.assessment"];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
+    [self removeObserver:self forKeyPath:@"agent.name"];
 }
 
 #pragma mark -
@@ -88,6 +99,8 @@ static NSArray *motivationsArray;
         [self refreshMotivationText];
     } else if ([keyPath isEqualToString:@"agent.assessment"]) {
         [self refreshAgentDescription];
+    } else if ([keyPath isEqualToString:@"agent.name"]) {
+        self.title = self.agent.name;
     }
 }
 
@@ -99,7 +112,6 @@ static NSArray *motivationsArray;
 }
 
 - (IBAction)savePressed:(id)sender {
-    [self assignAgentValues];
     [self.delegate controller:self modifiedData:YES];
 }
 
@@ -119,12 +131,12 @@ static NSArray *motivationsArray;
     return YES;
 }
 
+-(void)textFieldDidEndEditing:(UITextField *)textField {
+    self.agent.name = textField.text;
+}
+
 #pragma mark -
 #pragma mark Helping Methods
-
-- (void)assignAgentValues {
-    self.agent.name = self.nameTextField.text;
-}
 
 - (void)refreshMotivationText {
     NSUInteger motivationValue = [[NSNumber numberWithDouble:self.motivationStep.value] integerValue];
