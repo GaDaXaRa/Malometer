@@ -8,7 +8,10 @@
 
 #import "MasterViewController.h"
 
+#import "Agent.h"
 #import "DetailViewController.h"
+
+static NSString *const detailSegueName = @"CreateAgent";
 
 @interface MasterViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -105,10 +108,17 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+    if ([[segue identifier] isEqualToString:detailSegueName]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        [[segue destinationViewController] setDetailItem:object];
+        Agent *agent = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+        if (!agent) {
+            agent = [NSEntityDescription insertNewObjectForEntityForName:@"Agent" inManagedObjectContext:self.managedObjectContext];
+        }
+        
+        UINavigationController *nextController = [segue destinationViewController];
+        DetailViewController *detailController = [nextController.viewControllers firstObject];
+        detailController.delegate = self;
+        detailController.agent = agent;
     }
 }
 
@@ -214,7 +224,14 @@
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[object valueForKey:@"timeStamp"] description];
+    cell.textLabel.text = [[object valueForKey:@"name"] description];
+}
+
+#pragma mark -
+#pragma mark ModifiedAgentData Delegate
+
+- (void)controller:(UIViewController *)controller modifiedData:(Agent *)agent {
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

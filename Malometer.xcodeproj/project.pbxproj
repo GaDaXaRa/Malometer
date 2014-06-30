@@ -25,6 +25,8 @@
 		3FD5F1A8196166BA00488778 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FD5F183196166BA00488778 /* CoreData.framework */; };
 		3FD5F1B0196166BA00488778 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3FD5F1AE196166BA00488778 /* InfoPlist.strings */; };
 		3FD5F1B2196166BA00488778 /* MalometerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5F1B1196166BA00488778 /* MalometerTests.m */; };
+		3FD5F1BD1961752A00488778 /* Agent.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5F1BC1961752A00488778 /* Agent.m */; };
+		3FD5F1C1196181A500488778 /* AssessmentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5F1C0196181A500488778 /* AssessmentManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,11 @@
 		3FD5F1AD196166BA00488778 /* MalometerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MalometerTests-Info.plist"; sourceTree = "<group>"; };
 		3FD5F1AF196166BA00488778 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3FD5F1B1196166BA00488778 /* MalometerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MalometerTests.m; sourceTree = "<group>"; };
+		3FD5F1BB1961752A00488778 /* Agent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Agent.h; sourceTree = "<group>"; };
+		3FD5F1BC1961752A00488778 /* Agent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Agent.m; sourceTree = "<group>"; };
+		3FD5F1BE19617A4F00488778 /* ModifiedAgentDataDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModifiedAgentDataDelegate.h; sourceTree = "<group>"; };
+		3FD5F1BF196181A500488778 /* AssessmentManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssessmentManager.h; sourceTree = "<group>"; };
+		3FD5F1C0196181A500488778 /* AssessmentManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssessmentManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +139,12 @@
 				3FD5F19B196166BA00488778 /* DetailViewController.m */,
 				3FD5F19D196166BA00488778 /* Images.xcassets */,
 				3FD5F194196166BA00488778 /* Malometer.xcdatamodeld */,
+				3FD5F1BB1961752A00488778 /* Agent.h */,
+				3FD5F1BC1961752A00488778 /* Agent.m */,
 				3FD5F186196166BA00488778 /* Supporting Files */,
+				3FD5F1BE19617A4F00488778 /* ModifiedAgentDataDelegate.h */,
+				3FD5F1BF196181A500488778 /* AssessmentManager.h */,
+				3FD5F1C0196181A500488778 /* AssessmentManager.m */,
 			);
 			path = Malometer;
 			sourceTree = "<group>";
@@ -265,7 +277,9 @@
 			files = (
 				3FD5F19C196166BA00488778 /* DetailViewController.m in Sources */,
 				3FD5F199196166BA00488778 /* MasterViewController.m in Sources */,
+				3FD5F1C1196181A500488778 /* AssessmentManager.m in Sources */,
 				3FD5F190196166BA00488778 /* AppDelegate.m in Sources */,
+				3FD5F1BD1961752A00488778 /* Agent.m in Sources */,
 				3FD5F18C196166BA00488778 /* main.m in Sources */,
 				3FD5F196196166BA00488778 /* Malometer.xcdatamodeld in Sources */,
 			);
