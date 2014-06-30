@@ -44,14 +44,13 @@
 
 - (void)configureView
 {
-    // Update the user interface for the detail item.
-
     [self buildAgentDescriptionArray];
     [self buildDpsArray];
     [self buildMotivationsArray];
     if (self.agent) {
         self.motivationStep.value = [[self.agent valueForKey:@"motivation"] integerValue];
         self.destructionPowerStep.value = [[self.agent valueForKey:@"destructionPower"] integerValue];
+        self.nameTextField.text = [self.agent valueForKey:@"name"];
         [self refreshMotivationText];
         [self refreshDestructionText];
     }
@@ -60,26 +59,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark -
 #pragma mark Actions
 
 - (IBAction)cancelPressed:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.delegate controller:self modifiedData:NO];
 }
 
 - (IBAction)savePressed:(id)sender {
     [self assignAgentValues];
-    [self.delegate controller:self modifiedData:self.agent];
+    [self.delegate controller:self modifiedData:YES];
 }
 
 - (IBAction)destructionStepChanged:(id)sender {
@@ -88,6 +85,10 @@
 
 - (IBAction)motivationStepChanged:(id)sender {
     [self refreshMotivationText];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
 }
 
 #pragma mark -

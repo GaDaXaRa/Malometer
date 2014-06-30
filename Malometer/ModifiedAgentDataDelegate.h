@@ -10,5 +10,5 @@
 #import "Agent.h"
 
 @protocol ModifiedAgentDataDelegate <NSObject>
-- (void)controller:(UIViewController *)controller modifiedData:(Agent *)agent;
+- (void)controller:(UIViewController *)controller modifiedData:(BOOL)modified;
 @end
