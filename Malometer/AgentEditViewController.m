@@ -49,6 +49,7 @@ static NSArray *motivationsArray;
         self.nameTextField.text = self.agent.name;
         [self refreshMotivationText];
         [self refreshDestructionText];
+        [self refreshAgentDescription];
     }
 }
 
@@ -76,11 +77,15 @@ static NSArray *motivationsArray;
 }
 
 - (IBAction)destructionStepChanged:(id)sender {
+    self.agent.destructionPower = [NSNumber numberWithDouble:self.destructionPowerStep.value];
     [self refreshDestructionText];
+    [self refreshAgentDescription];
 }
 
 - (IBAction)motivationStepChanged:(id)sender {
+    self.agent.motivation = [NSNumber numberWithDouble:self.motivationStep.value];
     [self refreshMotivationText];
+    [self refreshAgentDescription];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -91,15 +96,13 @@ static NSArray *motivationsArray;
 #pragma mark Helping Methods
 
 - (void)assignAgentValues {
-    self.agent.motivation = [NSNumber numberWithDouble:self.motivationStep.value];
-    self.agent.destructionPower = [NSNumber numberWithDouble:self.destructionPowerStep.value];
     self.agent.name = self.nameTextField.text;
 }
 
 - (void)refreshMotivationText {
     NSUInteger motivationValue = [[NSNumber numberWithDouble:self.motivationStep.value] integerValue];
     self.motivationAmount.text = motivationsArray[motivationValue];
-    [self refreshAgentDescription];
+    
 }
 
 - (void)refreshDestructionText {
