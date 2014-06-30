@@ -8,7 +8,7 @@
 
 #import "AgentEditViewController.h"
 
-@interface AgentEditViewController ()
+@interface AgentEditViewController ()<UITextFieldDelegate>
 - (void)configureView;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UILabel *destructionPowerAmount;
@@ -38,6 +38,7 @@ static NSArray *motivationsArray;
 
 - (void)configureView
 {
+    self.nameTextField.delegate = self;
     [self buildAgentDescriptionArray];
     [self buildDpsArray];
     [self buildMotivationsArray];
@@ -109,8 +110,12 @@ static NSArray *motivationsArray;
     self.agent.motivation = [NSNumber numberWithDouble:self.motivationStep.value];
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self.view endEditing:YES];
+#pragma mark -
+#pragma mark UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self.nameTextField endEditing:YES];
+    return YES;
 }
 
 #pragma mark -
