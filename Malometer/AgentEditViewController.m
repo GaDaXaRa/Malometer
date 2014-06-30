@@ -27,6 +27,8 @@ static NSArray *dpsArray;
 static NSArray *descriptionArray;
 static NSArray *motivationsArray;
 
+static void * XXContext = &XXContext;
+
 #pragma mark - Managing the detail item
 
 - (void)setAgent:(id)newDetailItem
@@ -59,9 +61,28 @@ static NSArray *motivationsArray;
     [self configureView];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self addObserver:self forKeyPath:@"agent.destructionPower" options:NSKeyValueObservingOptionNew context:XXContext];
+    [self addObserver:self forKeyPath:@"agent.motivation" options:NSKeyValueObservingOptionNew context:XXContext];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark -
+#pragma mark Key Value Observing
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (context == XXContext) {
+        if ([keyPath isEqualToString:@"agent.destructionPower"]) {
+            [self refreshDestructionText];
+        } else if ([keyPath isEqualToString:@"agent.motivation"]) {
+            [self refreshMotivationText];
+        }
+    }
 }
 
 #pragma mark -
@@ -78,13 +99,11 @@ static NSArray *motivationsArray;
 
 - (IBAction)destructionStepChanged:(id)sender {
     self.agent.destructionPower = [NSNumber numberWithDouble:self.destructionPowerStep.value];
-    [self refreshDestructionText];
     [self refreshAgentDescription];
 }
 
 - (IBAction)motivationStepChanged:(id)sender {
     self.agent.motivation = [NSNumber numberWithDouble:self.motivationStep.value];
-    [self refreshMotivationText];
     [self refreshAgentDescription];
 }
 
@@ -102,13 +121,11 @@ static NSArray *motivationsArray;
 - (void)refreshMotivationText {
     NSUInteger motivationValue = [[NSNumber numberWithDouble:self.motivationStep.value] integerValue];
     self.motivationAmount.text = motivationsArray[motivationValue];
-    
 }
 
 - (void)refreshDestructionText {
-    NSUInteger destructionValue = [[NSNumber numberWithDouble:self.destructionPowerStep.value] integerValue];
+    NSUInteger destructionValue = [self.agent.destructionPower integerValue];
     self.destructionPowerAmount.text = dpsArray[destructionValue];
-    [self refreshAgentDescription];
 }
 
 - (void)refreshAgentDescription {
