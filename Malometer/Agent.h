@@ -15,5 +15,7 @@
 @property (nonatomic, retain) NSNumber * destructionPower;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * motivation;
+@property (nonatomic, retain) NSNumber * assessment;
+@property (nonatomic, retain) NSString * pictureURL;
 
 @end

@@ -14,5 +14,7 @@
 @dynamic destructionPower;
 @dynamic name;
 @dynamic motivation;
+@dynamic assessment;
+@dynamic pictureURL;
 
 @end

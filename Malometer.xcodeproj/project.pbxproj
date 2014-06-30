@@ -25,8 +25,8 @@
 		3FD5F1A8196166BA00488778 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FD5F183196166BA00488778 /* CoreData.framework */; };
 		3FD5F1B0196166BA00488778 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3FD5F1AE196166BA00488778 /* InfoPlist.strings */; };
 		3FD5F1B2196166BA00488778 /* MalometerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5F1B1196166BA00488778 /* MalometerTests.m */; };
-		3FD5F1BD1961752A00488778 /* Agent.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5F1BC1961752A00488778 /* Agent.m */; };
-		3FD5F1C1196181A500488778 /* AssessmentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5F1C0196181A500488778 /* AssessmentManager.m */; };
+		3FD5F1D01961B8F100488778 /* Agent+Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5F1CF1961B8F100488778 /* Agent+Model.m */; };
+		3FD5F1D31961B99200488778 /* Agent.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5F1D21961B99200488778 /* Agent.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,11 +63,11 @@
 		3FD5F1AD196166BA00488778 /* MalometerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MalometerTests-Info.plist"; sourceTree = "<group>"; };
 		3FD5F1AF196166BA00488778 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3FD5F1B1196166BA00488778 /* MalometerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MalometerTests.m; sourceTree = "<group>"; };
-		3FD5F1BB1961752A00488778 /* Agent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Agent.h; sourceTree = "<group>"; };
-		3FD5F1BC1961752A00488778 /* Agent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Agent.m; sourceTree = "<group>"; };
 		3FD5F1BE19617A4F00488778 /* ModifiedAgentDataDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModifiedAgentDataDelegate.h; sourceTree = "<group>"; };
-		3FD5F1BF196181A500488778 /* AssessmentManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssessmentManager.h; sourceTree = "<group>"; };
-		3FD5F1C0196181A500488778 /* AssessmentManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssessmentManager.m; sourceTree = "<group>"; };
+		3FD5F1CE1961B8F100488778 /* Agent+Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Agent+Model.h"; sourceTree = "<group>"; };
+		3FD5F1CF1961B8F100488778 /* Agent+Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Agent+Model.m"; sourceTree = "<group>"; };
+		3FD5F1D11961B99200488778 /* Agent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Agent.h; sourceTree = "<group>"; };
+		3FD5F1D21961B99200488778 /* Agent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Agent.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,7 +174,6 @@
 			children = (
 				3FD5F194196166BA00488778 /* Malometer.xcdatamodeld */,
 				3FD5F1C71961A05200488778 /* Protocols */,
-				3FD5F1C41961A01700488778 /* Managers */,
 				3FD5F1C31961A00C00488778 /* Entities */,
 			);
 			name = Main;
@@ -183,19 +182,12 @@
 		3FD5F1C31961A00C00488778 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				3FD5F1BB1961752A00488778 /* Agent.h */,
-				3FD5F1BC1961752A00488778 /* Agent.m */,
+				3FD5F1D11961B99200488778 /* Agent.h */,
+				3FD5F1D21961B99200488778 /* Agent.m */,
+				3FD5F1CE1961B8F100488778 /* Agent+Model.h */,
+				3FD5F1CF1961B8F100488778 /* Agent+Model.m */,
 			);
 			name = Entities;
-			sourceTree = "<group>";
-		};
-		3FD5F1C41961A01700488778 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				3FD5F1BF196181A500488778 /* AssessmentManager.h */,
-				3FD5F1C0196181A500488778 /* AssessmentManager.m */,
-			);
-			name = Managers;
 			sourceTree = "<group>";
 		};
 		3FD5F1C51961A02B00488778 /* Delivery */ = {
@@ -325,11 +317,11 @@
 			files = (
 				3FD5F19C196166BA00488778 /* AgentEditViewController.m in Sources */,
 				3FD5F199196166BA00488778 /* AgentsViewController.m in Sources */,
-				3FD5F1C1196181A500488778 /* AssessmentManager.m in Sources */,
+				3FD5F1D01961B8F100488778 /* Agent+Model.m in Sources */,
 				3FD5F190196166BA00488778 /* AppDelegate.m in Sources */,
-				3FD5F1BD1961752A00488778 /* Agent.m in Sources */,
 				3FD5F18C196166BA00488778 /* main.m in Sources */,
 				3FD5F196196166BA00488778 /* Malometer.xcdatamodeld in Sources */,
+				3FD5F1D31961B99200488778 /* Agent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

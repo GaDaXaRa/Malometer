@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ModifiedAgentDataDelegate.h"
-#import "Agent.h"
+#import "Agent+Model.h"
 
 @interface AgentEditViewController : UIViewController
 

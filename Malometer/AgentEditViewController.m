@@ -7,8 +7,6 @@
 //
 
 #import "AgentEditViewController.h"
-#import "AssessmentManager.h"
-
 
 @interface AgentEditViewController ()
 - (void)configureView;
@@ -26,8 +24,6 @@
 static NSArray *dpsArray;
 static NSArray *descriptionArray;
 static NSArray *motivationsArray;
-
-static void * XXContext = &XXContext;
 
 #pragma mark - Managing the detail item
 
@@ -63,8 +59,16 @@ static void * XXContext = &XXContext;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self addObserver:self forKeyPath:@"agent.destructionPower" options:NSKeyValueObservingOptionNew context:XXContext];
-    [self addObserver:self forKeyPath:@"agent.motivation" options:NSKeyValueObservingOptionNew context:XXContext];
+    [self addObserver:self forKeyPath:@"agent.destructionPower" options:0 context:nil];
+    [self addObserver:self forKeyPath:@"agent.motivation" options:0 context:nil];
+    [self addObserver:self forKeyPath:@"agent.assessment" options:0 context:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self removeObserver:self forKeyPath:@"agent.destructionPower"];
+    [self removeObserver:self forKeyPath:@"agent.motivation"];
+    [self removeObserver:self forKeyPath:@"agent.assessment"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -76,12 +80,12 @@ static void * XXContext = &XXContext;
 #pragma mark Key Value Observing
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if (context == XXContext) {
-        if ([keyPath isEqualToString:@"agent.destructionPower"]) {
-            [self refreshDestructionText];
-        } else if ([keyPath isEqualToString:@"agent.motivation"]) {
-            [self refreshMotivationText];
-        }
+    if ([keyPath isEqualToString:@"agent.destructionPower"]) {
+        [self refreshDestructionText];
+    } else if ([keyPath isEqualToString:@"agent.motivation"]) {
+        [self refreshMotivationText];
+    } else if ([keyPath isEqualToString:@"agent.assessment"]) {
+        [self refreshAgentDescription];
     }
 }
 
@@ -99,12 +103,10 @@ static void * XXContext = &XXContext;
 
 - (IBAction)destructionStepChanged:(id)sender {
     self.agent.destructionPower = [NSNumber numberWithDouble:self.destructionPowerStep.value];
-    [self refreshAgentDescription];
 }
 
 - (IBAction)motivationStepChanged:(id)sender {
     self.agent.motivation = [NSNumber numberWithDouble:self.motivationStep.value];
-    [self refreshAgentDescription];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -129,10 +131,7 @@ static void * XXContext = &XXContext;
 }
 
 - (void)refreshAgentDescription {
-    NSUInteger motivationValue = [[NSNumber numberWithDouble:self.motivationStep.value] integerValue];
-    NSUInteger destructionValue = [[NSNumber numberWithDouble:self.destructionPowerStep.value] integerValue];
-    NSUInteger assessmentValue = [AssessmentManager assesmentForDestructionPower:destructionValue andMotivation:motivationValue];
-    self.agentDescription.text = descriptionArray[assessmentValue];
+    self.agentDescription.text = descriptionArray[[self.agent.assessment integerValue]];
 }
 
 - (void)buildAgentDescriptionArray {
