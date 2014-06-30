@@ -10,6 +10,15 @@
 
 @interface DetailViewController ()
 - (void)configureView;
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UILabel *destructionPowerAmount;
+@property (weak, nonatomic) IBOutlet UILabel *motivationAmount;
+@property (weak, nonatomic) IBOutlet UIStepper *destructionPowerStep;
+@property (weak, nonatomic) IBOutlet UIStepper *motivationStep;
+
+@property (strong, nonatomic) NSArray *namesArray;
+@property (strong, nonatomic) NSArray *dpsArray;
+@property (strong, nonatomic) NSArray *motivationsArray;
 @end
 
 @implementation DetailViewController
@@ -31,7 +40,7 @@
     // Update the user interface for the detail item.
 
     if (self.detailItem) {
-        self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"timeStamp"] description];
+        
     }
 }
 
