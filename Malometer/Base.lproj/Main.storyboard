@@ -45,6 +45,9 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="GfG-R4-LVf" kind="modal" identifier="EditAgent" id="POB-KM-dY3"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <sections/>
@@ -165,6 +168,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="GfG-R4-LVf" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="cSq-6O-meS"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="8op-Bs-wqU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -184,4 +188,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="POB-KM-dY3"/>
+    </inferredMetricsTieBreakers>
 </document>

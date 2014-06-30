@@ -12,6 +12,7 @@
 #import "AgentEditViewController.h"
 
 static NSString *const detailSegueName = @"CreateAgent";
+static NSString *const detailEditSegueName = @"EditAgent";
 
 @interface AgentsViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -27,7 +28,7 @@ static NSString *const detailSegueName = @"CreateAgent";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -71,7 +72,7 @@ static NSString *const detailSegueName = @"CreateAgent";
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
-    }   
+    }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
@@ -81,19 +82,25 @@ static NSString *const detailSegueName = @"CreateAgent";
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:detailSegueName]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        Agent *agent = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        if (!agent) {
-            [self.managedObjectContext.undoManager beginUndoGrouping];
-            agent = [NSEntityDescription insertNewObjectForEntityForName:@"Agent" inManagedObjectContext:self.managedObjectContext];
-        }
+    if ([segue.identifier isEqualToString:detailSegueName]) {
+        [self.managedObjectContext.undoManager beginUndoGrouping];
+        Agent *agent = [NSEntityDescription insertNewObjectForEntityForName:@"Agent" inManagedObjectContext:self.managedObjectContext];
         
-        UINavigationController *nextController = [segue destinationViewController];
-        AgentEditViewController *detailController = [nextController.viewControllers firstObject];
-        detailController.delegate = self;
-        detailController.agent = agent;
+        [self prepareAgentEditControllerForSegue:segue andAgent:agent];
+    } else if ([segue.identifier isEqualToString:detailEditSegueName]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        [self.managedObjectContext.undoManager beginUndoGrouping];
+        Agent *agent = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+        
+        [self prepareAgentEditControllerForSegue:segue andAgent:agent];
     }
+}
+
+- (void)prepareAgentEditControllerForSegue:(UIStoryboardSegue *)segue andAgent:(Agent *)agent {
+    UINavigationController *nextController = [segue destinationViewController];
+    AgentEditViewController *detailController = [nextController.viewControllers firstObject];
+    detailController.delegate = self;
+    detailController.agent = agent;
 }
 
 #pragma mark - Fetched results controller
@@ -131,7 +138,7 @@ static NSString *const detailSegueName = @"CreateAgent";
 	}
     
     return _fetchedResultsController;
-}    
+}
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
