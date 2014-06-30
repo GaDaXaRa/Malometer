@@ -20,15 +20,17 @@ NSString *const assessmentKey = @"assessment";
     [self willChangeValueForKey:motivationKey];
     [self setPrimitiveValue:motivation forKey:motivationKey];
     [self didChangeValueForKey:motivationKey];
-    [self willChangeValueForKey:assessmentKey];
-    [self setPrimitiveValue:[self assesmentFormula] forKey:assessmentKey];
-    [self didChangeValueForKey:assessmentKey];
+    [self refreshAssement];
 }
 
 - (void)setDestructionPower:(NSNumber *)destructionPower {
     [self willChangeValueForKey:destructionPowerKey];
     [self setPrimitiveValue:destructionPower forKey:destructionPowerKey];
     [self didChangeValueForKey:destructionPowerKey];
+    [self refreshAssement];
+}
+
+- (void)refreshAssement {
     [self willChangeValueForKey:assessmentKey];
     [self setPrimitiveValue:[self assesmentFormula] forKey:assessmentKey];
     [self didChangeValueForKey:assessmentKey];
