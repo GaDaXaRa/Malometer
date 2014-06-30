@@ -18,4 +18,6 @@ UIKIT_EXTERN NSString *const assessmentKey;
 
 + (NSFetchRequest *)requestAllWithOrder:(NSString *)orderKey ascending:(BOOL)ascending inManagedObjectContext:(NSManagedObjectContext *)context;
 
++ (NSFetchRequest *)requestWithPredicate:(NSPredicate *)predicate inManagedObjectContext:(NSManagedObjectContext *)context;
+
 @end

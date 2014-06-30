@@ -17,16 +17,29 @@ NSString *const assessmentKey = @"assessment";
 @implementation Agent (Model)
 
 + (NSFetchRequest *)requestAllWithOrder:(NSString *)orderKey ascending:(BOOL)ascending inManagedObjectContext:(NSManagedObjectContext *)context {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([Agent class]) inManagedObjectContext:context];
-    
-    [fetchRequest setEntity:entity];
-    [fetchRequest setFetchBatchSize:20];
+    NSFetchRequest *fetchRequest = [Agent entityRequestWithBatchSize:20 inManagedObjectContext:context];
     
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:orderKey ascending:ascending];
     NSArray *sortDescriptors = @[sortDescriptor];
     
     [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    return fetchRequest;
+}
+
++ (NSFetchRequest *)requestWithPredicate:(NSPredicate *)predicate inManagedObjectContext:(NSManagedObjectContext *)context {
+    NSFetchRequest *fetchRequest = [Agent entityRequestWithBatchSize:20 inManagedObjectContext:context];
+    fetchRequest.predicate = predicate;
+    
+    return fetchRequest;
+}
+
++ (NSFetchRequest *)entityRequestWithBatchSize:(NSUInteger)batchSize inManagedObjectContext:(NSManagedObjectContext *)context {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([Agent class]) inManagedObjectContext:context];
+    
+    [fetchRequest setEntity:entity];
+    [fetchRequest setFetchBatchSize:batchSize];
     
     return fetchRequest;
 }
