@@ -21,7 +21,7 @@ NSString *const assessmentKey = @"assessment";
     [self setPrimitiveValue:motivation forKey:motivationKey];
     [self didChangeValueForKey:motivationKey];
     [self willChangeValueForKey:assessmentKey];
-    [self setPrimitiveValue:[self refreshAssessment] forKey:assessmentKey];
+    [self setPrimitiveValue:[self assesmentFormula] forKey:assessmentKey];
     [self didChangeValueForKey:assessmentKey];
 }
 
@@ -30,11 +30,11 @@ NSString *const assessmentKey = @"assessment";
     [self setPrimitiveValue:destructionPower forKey:destructionPowerKey];
     [self didChangeValueForKey:destructionPowerKey];
     [self willChangeValueForKey:assessmentKey];
-    [self setPrimitiveValue:[self refreshAssessment] forKey:assessmentKey];
+    [self setPrimitiveValue:[self assesmentFormula] forKey:assessmentKey];
     [self didChangeValueForKey:assessmentKey];
 }
 
-- (NSNumber *)refreshAssessment {
+- (NSNumber *)assesmentFormula {
     return [NSNumber numberWithInteger:([self.destructionPower integerValue] + [self.motivation integerValue]) / 2];
 }
 
