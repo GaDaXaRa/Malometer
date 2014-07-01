@@ -8,53 +8,56 @@
 
 #import "Agent+Model.h"
 
-NSString *const nameKey = @"name";
-NSString *const destructionPowerKey = @"destructionPower";
-NSString *const motivationKey = @"motivation";
-NSString *const pictureURLKey = @"pictureURL";
-NSString *const assessmentKey = @"assessment";
+NSString *const agentNameKey = @"name";
+NSString *const agentDestructionPowerKey = @"destructionPower";
+NSString *const agentMotivationKey = @"motivation";
+NSString *const agentPictureUUIDKey = @"pictureURL";
+NSString *const agentAssessmentKey = @"assessment";
 
 @implementation Agent (Model)
 
-+ (NSFetchRequest *)requestAllWithOrder:(NSString *)orderKey ascending:(BOOL)ascending inManagedObjectContext:(NSManagedObjectContext *)context {
-    NSFetchRequest *fetchRequest = [Agent entityRequestWithBatchSize:20 inManagedObjectContext:context];
++ (NSFetchRequest *)requestAllWithOrder:(NSString *)orderKey ascending:(BOOL)ascending {
+    NSFetchRequest *fetchRequest = [Agent entityRequestWithBatchSize:20];
     
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:orderKey ascending:ascending];
-    NSArray *sortDescriptors = @[sortDescriptor];
-    
-    [fetchRequest setSortDescriptors:sortDescriptors];
+    [fetchRequest setSortDescriptors:[Agent sortDescriptorsWithOrder:orderKey ascending:ascending]];
     
     return fetchRequest;
 }
 
-+ (NSFetchRequest *)requestWithPredicate:(NSPredicate *)predicate inManagedObjectContext:(NSManagedObjectContext *)context {
-    NSFetchRequest *fetchRequest = [Agent entityRequestWithBatchSize:20 inManagedObjectContext:context];
++ (NSFetchRequest *)requestWithPredicate:(NSPredicate *)predicate {
+    NSFetchRequest *fetchRequest = [Agent entityRequestWithBatchSize:20];
     fetchRequest.predicate = predicate;
     
+    [fetchRequest setSortDescriptors:[Agent sortDescriptorsWithOrder:agentNameKey ascending:YES]];
+    
     return fetchRequest;
 }
 
-+ (NSFetchRequest *)entityRequestWithBatchSize:(NSUInteger)batchSize inManagedObjectContext:(NSManagedObjectContext *)context {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([Agent class]) inManagedObjectContext:context];
-    
-    [fetchRequest setEntity:entity];
++ (NSFetchRequest *)entityRequestWithBatchSize:(NSUInteger)batchSize {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([Agent class])];
     [fetchRequest setFetchBatchSize:batchSize];
     
     return fetchRequest;
 }
 
++ (NSArray *)sortDescriptorsWithOrder:(NSString *)orderKey ascending:(BOOL)ascending {
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:orderKey ascending:ascending];
+    NSArray *sortDescriptors = @[sortDescriptor];
+    
+    return sortDescriptors;
+}
+
 - (void)setMotivation:(NSNumber *)motivation {
-    [self willChangeValueForKey:motivationKey];
-    [self setPrimitiveValue:motivation forKey:motivationKey];
-    [self didChangeValueForKey:motivationKey];
+    [self willChangeValueForKey:agentMotivationKey];
+    [self setPrimitiveValue:motivation forKey:agentMotivationKey];
+    [self didChangeValueForKey:agentMotivationKey];
     [self refreshAssement];
 }
 
 - (void)setDestructionPower:(NSNumber *)destructionPower {
-    [self willChangeValueForKey:destructionPowerKey];
-    [self setPrimitiveValue:destructionPower forKey:destructionPowerKey];
-    [self didChangeValueForKey:destructionPowerKey];
+    [self willChangeValueForKey:agentDestructionPowerKey];
+    [self setPrimitiveValue:destructionPower forKey:agentDestructionPowerKey];
+    [self didChangeValueForKey:agentDestructionPowerKey];
     [self refreshAssement];
 }
 
@@ -63,9 +66,9 @@ NSString *const assessmentKey = @"assessment";
 }
 
 - (void)refreshAssement {
-    [self willChangeValueForKey:assessmentKey];
-    [self setPrimitiveValue:[self assesmentFormula] forKey:assessmentKey];
-    [self didChangeValueForKey:assessmentKey];
+    [self willChangeValueForKey:agentAssessmentKey];
+    [self setPrimitiveValue:[self assesmentFormula] forKey:agentAssessmentKey];
+    [self didChangeValueForKey:agentAssessmentKey];
 }
 
 - (NSNumber *)assesmentFormula {

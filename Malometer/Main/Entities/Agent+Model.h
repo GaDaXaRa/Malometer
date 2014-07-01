@@ -8,16 +8,16 @@
 
 #import "Agent.h"
 
-UIKIT_EXTERN NSString *const nameKey;
-UIKIT_EXTERN NSString *const destructionPowerKey;
-UIKIT_EXTERN NSString *const motivationKey;
-UIKIT_EXTERN NSString *const pictureURLKey;
-UIKIT_EXTERN NSString *const assessmentKey;
+UIKIT_EXTERN NSString *const agentNameKey;
+UIKIT_EXTERN NSString *const agentDestructionPowerKey;
+UIKIT_EXTERN NSString *const agentMotivationKey;
+UIKIT_EXTERN NSString *const agentPictureUUIDKey;
+UIKIT_EXTERN NSString *const agentAssessmentKey;
 
 @interface Agent (Model)
 
-+ (NSFetchRequest *)requestAllWithOrder:(NSString *)orderKey ascending:(BOOL)ascending inManagedObjectContext:(NSManagedObjectContext *)context;
++ (NSFetchRequest *)requestAllWithOrder:(NSString *)orderKey ascending:(BOOL)ascending;
 
-+ (NSFetchRequest *)requestWithPredicate:(NSPredicate *)predicate inManagedObjectContext:(NSManagedObjectContext *)context;
++ (NSFetchRequest *)requestWithPredicate:(NSPredicate *)predicate;
 
 @end

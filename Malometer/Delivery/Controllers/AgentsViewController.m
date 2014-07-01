@@ -11,8 +11,9 @@
 #import "Agent+Model.h"
 #import "AgentEditViewController.h"
 
-static NSString *const detailSegueName = @"CreateAgent";
+static NSString *const detailCreateSegueName = @"CreateAgent";
 static NSString *const detailEditSegueName = @"EditAgent";
+static NSString *const cellIdentifier = @"Cell";
 
 @interface AgentsViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -51,7 +52,7 @@ static NSString *const detailEditSegueName = @"EditAgent";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }
@@ -82,9 +83,9 @@ static NSString *const detailEditSegueName = @"EditAgent";
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:detailSegueName]) {
+    if ([segue.identifier isEqualToString:detailCreateSegueName]) {
         [self.managedObjectContext.undoManager beginUndoGrouping];
-        Agent *agent = [NSEntityDescription insertNewObjectForEntityForName:@"Agent" inManagedObjectContext:self.managedObjectContext];
+        Agent *agent = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([Agent class]) inManagedObjectContext:self.managedObjectContext];
         
         [self prepareAgentEditControllerForSegue:segue andAgent:agent];
     } else if ([segue.identifier isEqualToString:detailEditSegueName]) {
@@ -111,8 +112,10 @@ static NSString *const detailEditSegueName = @"EditAgent";
         return _fetchedResultsController;
     }
     
-    NSFetchRequest *fetchRequest = [Agent requestAllWithOrder:@"name" ascending:YES inManagedObjectContext:self.managedObjectContext];
-    
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K < %i", agentDestructionPowerKey, 3];
+//    NSFetchRequest *fetchRequest = [Agent requestWithPredicate:predicate];
+    NSFetchRequest *fetchRequest = [Agent requestAllWithOrder:agentNameKey ascending:YES];
+    [NSFetchedResultsController deleteCacheWithName:@"Master"];
     NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
     aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;

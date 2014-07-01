@@ -7,6 +7,8 @@
 //
 
 #import "AgentEditViewController.h"
+#import "FreakType+Model.h"
+#import "Domain+Model.h"
 
 @interface AgentEditViewController ()<UITextFieldDelegate>
 - (void)configureView;
@@ -16,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UIStepper *destructionPowerStep;
 @property (weak, nonatomic) IBOutlet UIStepper *motivationStep;
 @property (weak, nonatomic) IBOutlet UILabel *agentDescription;
+@property (weak, nonatomic) IBOutlet UITextField *agentTtypeTextField;
+@property (weak, nonatomic) IBOutlet UITextField *agentDomainsTextField;
 
 @end
 
@@ -61,6 +65,8 @@ static NSArray *motivationsArray;
     [self buildAgentDescriptionArray];
     [self buildDpsArray];
     [self buildMotivationsArray];
+    self.agentTtypeTextField.delegate = self;
+    self.agentDomainsTextField.delegate = self;
     if (self.agent) {
         self.title = self.agent.name;
         self.motivationStep.value = [self.agent.motivation integerValue];
@@ -69,6 +75,8 @@ static NSArray *motivationsArray;
         [self refreshMotivationText];
         [self refreshDestructionText];
         [self refreshAgentDescription];
+        [self refreshAgentCategory];
+        [self refreshAgentDomains];
     }
 }
 
@@ -128,15 +136,50 @@ static NSArray *motivationsArray;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self.nameTextField endEditing:YES];
+    [self.agentTtypeTextField endEditing:YES];
+    [self.agentDomainsTextField endEditing:YES];
     return YES;
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField {
-    self.agent.name = textField.text;
+    if (textField == self.nameTextField) {
+        self.agent.name = textField.text;
+    } else if (textField == self.agentDomainsTextField) {
+        NSMutableSet *domainsSet = [[NSMutableSet alloc] init];
+        NSArray *domainsArray = [textField.text componentsSeparatedByString:@","];
+        for (NSString *domainName in domainsArray) {
+            Domain *domain = [Domain findDomainWithName:domainName inContext:self.agent.managedObjectContext];
+            if (!domain) {
+                domain = [Domain domainWithName:domainName inContext:self.agent.managedObjectContext];
+            }
+            [domainsSet addObject:domain];
+        }
+        self.agent.domains = domainsSet;
+        
+    } else if (textField == self.agentTtypeTextField) {
+        FreakType *freakType = [FreakType findFreakTypeWithName:textField.text inContext:self.agent.managedObjectContext];
+        if (!freakType) {
+            freakType = [FreakType freakeTypeWithName:textField.text inContext:self.agent.managedObjectContext];
+        }
+        self.agent.category = freakType;
+    }
 }
 
 #pragma mark -
 #pragma mark Helping Methods
+
+- (void)refreshAgentCategory {
+    self.agentTtypeTextField.text = self.agent.category.name;
+}
+
+- (void)refreshAgentDomains {
+    NSSet *domains = self.agent.domains;
+    NSMutableSet *domainsNamesSet = [[NSMutableSet alloc] init];
+    for (Domain *domain in domains) {
+        [domainsNamesSet addObject:domain.name];
+    }
+    self.agentDomainsTextField.text = [[domainsNamesSet allObjects] componentsJoinedByString:@","];
+}
 
 - (void)refreshMotivationText {
     NSUInteger motivationValue = [[NSNumber numberWithDouble:self.motivationStep.value] integerValue];
