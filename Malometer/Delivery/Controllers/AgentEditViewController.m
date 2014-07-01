@@ -59,25 +59,43 @@ static NSArray *motivationsArray;
     [self removeObservers];
 }
 
+#pragma mark -
+#pragma mark Configuring View
+
 - (void)configureView
 {
-    self.nameTextField.delegate = self;
-    [self buildAgentDescriptionArray];
-    [self buildDpsArray];
-    [self buildMotivationsArray];
-    self.agentTtypeTextField.delegate = self;
-    self.agentDomainsTextField.delegate = self;
+    [self buildAgentDataStringsArrays];
+    [self configureDelegates];
     if (self.agent) {
-        self.title = self.agent.name;
-        self.motivationStep.value = [self.agent.motivation integerValue];
-        self.destructionPowerStep.value = [self.agent.destructionPower integerValue];
-        self.nameTextField.text = self.agent.name;
+        [self configureSubviewsAtInitValues];
         [self refreshMotivationText];
         [self refreshDestructionText];
         [self refreshAgentDescription];
         [self refreshAgentCategory];
         [self refreshAgentDomains];
     }
+}
+
+- (void)configureSubviewsAtInitValues
+{
+    self.title = self.agent.name;
+    self.motivationStep.value = [self.agent.motivation integerValue];
+    self.destructionPowerStep.value = [self.agent.destructionPower integerValue];
+    self.nameTextField.text = self.agent.name;
+}
+
+- (void)buildAgentDataStringsArrays
+{
+    [self buildAgentDescriptionArray];
+    [self buildDpsArray];
+    [self buildMotivationsArray];
+}
+
+- (void)configureDelegates
+{
+    self.nameTextField.delegate = self;
+    self.agentTtypeTextField.delegate = self;
+    self.agentDomainsTextField.delegate = self;
 }
 
 #pragma mark -
@@ -120,6 +138,8 @@ static NSArray *motivationsArray;
 }
 
 - (IBAction)savePressed:(id)sender {
+    [self storeAgentCategory];
+    [self storeAgentDomains];
     [self.delegate controller:self modifiedData:YES];
 }
 
@@ -145,28 +165,35 @@ static NSArray *motivationsArray;
     if (textField == self.nameTextField) {
         self.agent.name = textField.text;
     } else if (textField == self.agentDomainsTextField) {
-        NSMutableSet *domainsSet = [[NSMutableSet alloc] init];
-        NSArray *domainsArray = [textField.text componentsSeparatedByString:@","];
-        for (NSString *domainName in domainsArray) {
-            Domain *domain = [Domain findDomainWithName:domainName inContext:self.agent.managedObjectContext];
-            if (!domain) {
-                domain = [Domain domainWithName:domainName inContext:self.agent.managedObjectContext];
-            }
-            [domainsSet addObject:domain];
-        }
-        self.agent.domains = domainsSet;
         
     } else if (textField == self.agentTtypeTextField) {
-        FreakType *freakType = [FreakType findFreakTypeWithName:textField.text inContext:self.agent.managedObjectContext];
-        if (!freakType) {
-            freakType = [FreakType freakeTypeWithName:textField.text inContext:self.agent.managedObjectContext];
-        }
-        self.agent.category = freakType;
+        
     }
 }
 
 #pragma mark -
 #pragma mark Helping Methods
+
+- (void)storeAgentDomains {
+    NSMutableSet *domainsSet = [[NSMutableSet alloc] init];
+    NSArray *domainsArray = [self.agentDomainsTextField.text componentsSeparatedByString:@","];
+    for (NSString *domainName in domainsArray) {
+        Domain *domain = [Domain findDomainWithName:domainName inContext:self.agent.managedObjectContext];
+        if (!domain) {
+            domain = [Domain domainWithName:domainName inContext:self.agent.managedObjectContext];
+        }
+        [domainsSet addObject:domain];
+    }
+    self.agent.domains = domainsSet;
+}
+
+- (void)storeAgentCategory {
+    FreakType *freakType = [FreakType findFreakTypeWithName:self.agentTtypeTextField.text inContext:self.agent.managedObjectContext];
+    if (!freakType) {
+        freakType = [FreakType freakeTypeWithName:self.agentTtypeTextField.text inContext:self.agent.managedObjectContext];
+    }
+    self.agent.category = freakType;
+}
 
 - (void)refreshAgentCategory {
     self.agentTtypeTextField.text = self.agent.category.name;

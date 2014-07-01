@@ -20,4 +20,6 @@ UIKIT_EXTERN NSString *const agentAssessmentKey;
 
 + (NSFetchRequest *)requestWithPredicate:(NSPredicate *)predicate;
 
++ (NSFetchRequest *)requestWithSortDescriptors:(NSArray *)sortDescriptors;
+
 @end

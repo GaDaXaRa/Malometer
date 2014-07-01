@@ -8,6 +8,8 @@
 
 #import "Domain+Model.h"
 
+static NSString *const domainNameKey = @"name";
+
 @implementation Domain (Model)
 
 + (Domain *)domainWithName:(NSString *)name inContext:(NSManagedObjectContext *)context {
@@ -19,12 +21,21 @@
 
 + (Domain *)findDomainWithName:(NSString *)name inContext:(NSManagedObjectContext *)context {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:NSStringFromClass([Domain class])];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name == %@", name];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"%K == %@", domainNameKey, name];
     
     NSError *error;
     NSArray *results = [context executeFetchRequest:fetchRequest error:&error];
     
-    return [results lastObject];
+    return [results firstObject];
+}
+
++ (NSFetchRequest *)requestForDomains {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([Domain class])];
+    [fetchRequest setFetchBatchSize:20];
+    
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(SUBQUERY(agents,$x,$x.destructionPower >= 3)).@count > 1"];
+    
+    return fetchRequest;
 }
 
 @end

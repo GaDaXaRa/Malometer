@@ -9,6 +9,7 @@
 #import "AgentsViewController.h"
 
 #import "Agent+Model.h"
+#import "Domain+Model.h"
 #import "AgentEditViewController.h"
 
 static NSString *const detailCreateSegueName = @"CreateAgent";
@@ -29,7 +30,7 @@ static NSString *const cellIdentifier = @"Cell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Malometer";
+    [self titleForDomains];
 }
 
 - (void)didReceiveMemoryWarning
@@ -42,6 +43,12 @@ static NSString *const cellIdentifier = @"Cell";
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return [[self.fetchedResultsController sections] count];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    NSString *categoryName = [[[self.fetchedResultsController sections] objectAtIndex:section] name];
+    NSNumber *dpAvg = [[[[self.fetchedResultsController sections] objectAtIndex:section] objects] valueForKeyPath:@"@avg.destructionPower"];
+    return [NSString stringWithFormat:@"%@ (%@)", categoryName, dpAvg];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -84,16 +91,10 @@ static NSString *const cellIdentifier = @"Cell";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:detailCreateSegueName]) {
-        [self.managedObjectContext.undoManager beginUndoGrouping];
-        Agent *agent = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([Agent class]) inManagedObjectContext:self.managedObjectContext];
-        
-        [self prepareAgentEditControllerForSegue:segue andAgent:agent];
+        [self prepareAgentEditControllerForSegue:segue andAgent:[self createNewAgent]];
     } else if ([segue.identifier isEqualToString:detailEditSegueName]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        [self.managedObjectContext.undoManager beginUndoGrouping];
-        Agent *agent = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        
-        [self prepareAgentEditControllerForSegue:segue andAgent:agent];
+        [self prepareAgentEditControllerForSegue:segue andAgent:[self findAgentByIndexPath:indexPath]];
     }
 }
 
@@ -104,6 +105,20 @@ static NSString *const cellIdentifier = @"Cell";
     detailController.agent = agent;
 }
 
+- (Agent *)createNewAgent
+{
+    [self.managedObjectContext.undoManager beginUndoGrouping];
+    Agent *agent = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([Agent class]) inManagedObjectContext:self.managedObjectContext];
+    return agent;
+}
+
+- (Agent *)findAgentByIndexPath:(NSIndexPath *)indexPath
+{
+    [self.managedObjectContext.undoManager beginUndoGrouping];
+    Agent *agent = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+    return agent;
+}
+
 #pragma mark - Fetched results controller
 
 - (NSFetchedResultsController *)fetchedResultsController
@@ -112,11 +127,9 @@ static NSString *const cellIdentifier = @"Cell";
         return _fetchedResultsController;
     }
     
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K < %i", agentDestructionPowerKey, 3];
-//    NSFetchRequest *fetchRequest = [Agent requestWithPredicate:predicate];
-    NSFetchRequest *fetchRequest = [Agent requestAllWithOrder:agentNameKey ascending:YES];
+    NSFetchRequest *fetchRequest = [Agent requestWithSortDescriptors:[self buildSortDescriptors]];
     [NSFetchedResultsController deleteCacheWithName:@"Master"];
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
+    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"category.name" cacheName:@"Master"];
     aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;
     
@@ -127,6 +140,13 @@ static NSString *const cellIdentifier = @"Cell";
 	}
     
     return _fetchedResultsController;
+}
+
+- (NSArray *)buildSortDescriptors {
+    NSSortDescriptor *categoryNameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"category.name" ascending:YES];
+    NSSortDescriptor *destPowSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:agentDestructionPowerKey ascending:NO];
+    NSSortDescriptor *nameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:agentNameKey ascending:YES];
+   return @[categoryNameSortDescriptor, destPowSortDescriptor, nameSortDescriptor];
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
@@ -197,6 +217,16 @@ static NSString *const cellIdentifier = @"Cell";
         [self.managedObjectContext.undoManager undo];
     }
     [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark -
+#pragma mark Helping Methods
+
+- (void)titleForDomains {
+    NSError *error;
+    NSUInteger controlledDomains = [self.managedObjectContext countForFetchRequest:[Domain requestForDomains]
+                                                                             error:&error];
+    self.title = [NSString stringWithFormat:@"Controlled domains: %d", controlledDomains];
 }
 
 @end

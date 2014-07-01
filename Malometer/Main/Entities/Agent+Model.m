@@ -33,6 +33,13 @@ NSString *const agentAssessmentKey = @"assessment";
     return fetchRequest;
 }
 
++ (NSFetchRequest *)requestWithSortDescriptors:(NSArray *)sortDescriptors {
+    NSFetchRequest *fetchRequest = [Agent entityRequestWithBatchSize:20];
+    fetchRequest.sortDescriptors = sortDescriptors;
+    
+    return fetchRequest;
+}
+
 + (NSFetchRequest *)entityRequestWithBatchSize:(NSUInteger)batchSize {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([Agent class])];
     [fetchRequest setFetchBatchSize:batchSize];

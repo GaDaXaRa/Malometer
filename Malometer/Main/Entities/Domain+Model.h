@@ -12,5 +12,6 @@
 
 + (Domain *)domainWithName:(NSString *)name inContext:(NSManagedObjectContext *)context;
 + (Domain *)findDomainWithName:(NSString *)name inContext:(NSManagedObjectContext *)context;
++ (NSFetchRequest *)requestForDomains;
 
 @end
