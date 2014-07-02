@@ -12,6 +12,14 @@ NSString *const freakTypePropertyName = @"name";
 
 @implementation FreakType (Model)
 
++ (FreakType *)createFreakTypeInContext:(NSManagedObjectContext *)context withDictionary:(NSDictionary *)dictionary {
+    FreakType *freakType = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([FreakType class]) inManagedObjectContext:context];
+    
+    freakType.name = [dictionary valueForKey:@"name"];
+    
+    return freakType;
+}
+
 + (FreakType *)freakeTypeWithName:(NSString *)name inContext:(NSManagedObjectContext *)context {
     FreakType *freakType = [NSEntityDescription insertNewObjectForEntityForName:@"FreakType" inManagedObjectContext:context];
     freakType.name = name;

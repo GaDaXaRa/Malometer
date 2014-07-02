@@ -10,6 +10,7 @@
 
 @interface Domain (Model)
 
++ (Domain *)createDomainInContext:(NSManagedObjectContext *)contex withDictionary:(NSDictionary *)dictionary;
 + (Domain *)domainWithName:(NSString *)name inContext:(NSManagedObjectContext *)context;
 + (Domain *)findDomainWithName:(NSString *)name inContext:(NSManagedObjectContext *)context;
 + (NSFetchRequest *)requestForDomains;

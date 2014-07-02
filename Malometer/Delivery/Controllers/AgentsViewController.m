@@ -116,6 +116,8 @@ static NSString *const cellIdentifier = @"Cell";
 {
     [self.managedObjectContext.undoManager beginUndoGrouping];
     Agent *agent = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+    NSString *power = indexPath.row % 2 == 0 ? @"Intelligence" : @"Strength";
+    agent.power = power;
     return agent;
 }
 

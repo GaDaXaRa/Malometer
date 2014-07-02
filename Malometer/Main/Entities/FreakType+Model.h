@@ -10,6 +10,7 @@
 
 @interface FreakType (Model)
 
++ (FreakType *)createFreakTypeInContext:(NSManagedObjectContext *)context withDictionary:(NSDictionary *)dictionary;
 + (FreakType *)freakeTypeWithName:(NSString *)name inContext:(NSManagedObjectContext *)context;
 + (FreakType *)findFreakTypeWithName:(NSString *)name inContext:(NSManagedObjectContext *)context;
 

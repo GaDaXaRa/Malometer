@@ -12,6 +12,14 @@ static NSString *const domainNameKey = @"name";
 
 @implementation Domain (Model)
 
++ (Domain *)createDomainInContext:(NSManagedObjectContext *)contex withDictionary:(NSDictionary *)dictionary {
+    Domain *domain = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([Domain class]) inManagedObjectContext:contex];
+    
+    domain.name = [dictionary valueForKey:@"name"];
+    
+    return domain;
+}
+
 + (Domain *)domainWithName:(NSString *)name inContext:(NSManagedObjectContext *)context {
     Domain *domain = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([Domain class]) inManagedObjectContext:context];
     domain.name = name;

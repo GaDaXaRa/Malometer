@@ -7,6 +7,8 @@
 //
 
 #import "Agent+Model.h"
+#import "FreakType+Model.h"
+#import "Domain+Model.h"
 
 NSString *const agentNameKey = @"name";
 NSString *const agentDestructionPowerKey = @"destructionPower";
@@ -15,6 +17,27 @@ NSString *const agentPictureUUIDKey = @"pictureURL";
 NSString *const agentAssessmentKey = @"assessment";
 
 @implementation Agent (Model)
+
++ (Agent *)createAgentInContext:(NSManagedObjectContext *)context withDictionary:(NSDictionary *)dictionary {
+    Agent *agent = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([Agent class]) inManagedObjectContext:context];
+    
+    agent.name = [dictionary valueForKey:@"name"];
+    agent.motivation = [dictionary valueForKey:@"motivation"];
+    agent.destructionPower = [dictionary valueForKey:@"dp"];
+    
+    agent.category = [FreakType findFreakTypeWithName:[dictionary valueForKey:@"category"] inContext:context];
+    
+    NSArray *domains = [dictionary valueForKey:@"domains"];
+    NSMutableSet *agentDomains = [[NSMutableSet alloc] init];
+    for (NSString *domainString in domains) {
+        Domain *domain = [Domain findDomainWithName:domainString inContext:context];
+        [agentDomains addObject:domain];
+    }
+    
+    agent.domains = agentDomains;
+    
+    return agent;
+}
 
 + (NSFetchRequest *)requestAllWithOrder:(NSString *)orderKey ascending:(BOOL)ascending {
     NSFetchRequest *fetchRequest = [Agent entityRequestWithBatchSize:20];

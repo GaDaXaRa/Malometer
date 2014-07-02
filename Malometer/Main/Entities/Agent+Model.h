@@ -16,10 +16,10 @@ UIKIT_EXTERN NSString *const agentAssessmentKey;
 
 @interface Agent (Model)
 
++ (Agent *)createAgentInContext:(NSManagedObjectContext *)context withDictionary:(NSDictionary *)dictionary;
+
 + (NSFetchRequest *)requestAllWithOrder:(NSString *)orderKey ascending:(BOOL)ascending;
-
 + (NSFetchRequest *)requestWithPredicate:(NSPredicate *)predicate;
-
 + (NSFetchRequest *)requestWithSortDescriptors:(NSArray *)sortDescriptors;
 
 @end
