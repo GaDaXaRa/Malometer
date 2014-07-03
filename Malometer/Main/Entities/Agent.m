@@ -18,8 +18,8 @@
 @dynamic motivation;
 @dynamic name;
 @dynamic pictureURL;
-@dynamic power;
 @dynamic category;
 @dynamic domains;
+@dynamic powers;
 
 @end

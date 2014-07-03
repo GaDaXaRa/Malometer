@@ -18,9 +18,9 @@
 @property (nonatomic, retain) NSNumber * motivation;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * pictureURL;
-@property (nonatomic, retain) NSString * power;
 @property (nonatomic, retain) FreakType *category;
 @property (nonatomic, retain) NSSet *domains;
+@property (nonatomic, retain) NSSet *powers;
 @end
 
 @interface Agent (CoreDataGeneratedAccessors)
@@ -29,5 +29,10 @@
 - (void)removeDomainsObject:(Domain *)value;
 - (void)addDomains:(NSSet *)values;
 - (void)removeDomains:(NSSet *)values;
+
+- (void)addPowersObject:(NSManagedObject *)value;
+- (void)removePowersObject:(NSManagedObject *)value;
+- (void)addPowers:(NSSet *)values;
+- (void)removePowers:(NSSet *)values;
 
 @end
