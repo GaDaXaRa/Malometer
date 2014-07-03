@@ -39,6 +39,13 @@ NSString *const agentAssessmentKey = @"assessment";
     return agent;
 }
 
++ (Agent *)createAgentInContext:(NSManagedObjectContext *)context withName:(NSString *)name {
+    Agent *agent = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([Agent class]) inManagedObjectContext:context];
+    agent.name = name;
+    
+    return agent;
+}
+
 + (NSFetchRequest *)requestAllWithOrder:(NSString *)orderKey ascending:(BOOL)ascending {
     NSFetchRequest *fetchRequest = [Agent entityRequestWithBatchSize:20];
     

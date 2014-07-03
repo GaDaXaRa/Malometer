@@ -17,6 +17,7 @@ UIKIT_EXTERN NSString *const agentAssessmentKey;
 @interface Agent (Model)
 
 + (Agent *)createAgentInContext:(NSManagedObjectContext *)context withDictionary:(NSDictionary *)dictionary;
++ (Agent *)createAgentInContext:(NSManagedObjectContext *)context withName:(NSString *)name;
 
 + (NSFetchRequest *)requestAllWithOrder:(NSString *)orderKey ascending:(BOOL)ascending;
 + (NSFetchRequest *)requestWithPredicate:(NSPredicate *)predicate;
