@@ -90,14 +90,14 @@ static NSString *const detailEditSegueName = @"EditAgent";
 
 - (Agent *)createNewAgent
 {
-    [self.managedObjectContext.undoManager beginUndoGrouping];
-    Agent *agent = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([Agent class]) inManagedObjectContext:self.managedObjectContext];
+    [self.model.managedObjectContext.undoManager beginUndoGrouping];
+    Agent *agent = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([Agent class]) inManagedObjectContext:self.model.managedObjectContext];
     return agent;
 }
 
 - (Agent *)findAgentByIndexPath:(NSIndexPath *)indexPath
 {
-    [self.managedObjectContext.undoManager beginUndoGrouping];
+    [self.model.managedObjectContext.undoManager beginUndoGrouping];
     Agent *agent = [[self fetchedResultsController] objectAtIndexPath:indexPath];
     //    NSString *power = indexPath.row % 2 == 0 ? @"Intelligence" : @"Strength";
     //    agent.power = power;
@@ -112,9 +112,13 @@ static NSString *const detailEditSegueName = @"EditAgent";
         return _fetchedResultsController;
     }
     
+    if (!self.model.managedObjectContext) {
+        return nil;
+    }
+    
     NSFetchRequest *fetchRequest = [Agent requestWithSortDescriptors:[self buildSortDescriptors]];
     [NSFetchedResultsController deleteCacheWithName:@"Master"];
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"category.name" cacheName:@"Master"];
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.model.managedObjectContext sectionNameKeyPath:@"category.name" cacheName:@"Master"];
     self.fetchedResultsController.delegate = self.fetchedResultsControllerDelegate;
     
 	NSError *error = nil;
@@ -137,12 +141,10 @@ static NSString *const detailEditSegueName = @"EditAgent";
 #pragma mark ModifiedAgentData Delegate
 
 - (void)controller:(AgentEditViewController *)controller modifiedData:(BOOL)modified {
-    [self.managedObjectContext.undoManager setActionName:@"Evil editing"];
-    [self.managedObjectContext.undoManager endUndoGrouping];
-    if (modified) {
-        [self.managedObjectContext save:nil];
-    } else {
-        [self.managedObjectContext.undoManager undo];
+    [self.model.managedObjectContext.undoManager setActionName:@"Evil editing"];
+    [self.model.managedObjectContext.undoManager endUndoGrouping];
+    if (!modified) {
+        [self.model.managedObjectContext.undoManager undo];
     }
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
@@ -152,9 +154,19 @@ static NSString *const detailEditSegueName = @"EditAgent";
 
 - (void)titleForDomains {
     NSError *error;
-    NSUInteger controlledDomains = [self.managedObjectContext countForFetchRequest:[Domain requestForDomains]
+    NSUInteger controlledDomains = [self.model.managedObjectContext countForFetchRequest:[Domain requestForDomains]
                                                                              error:&error];
     self.title = [NSString stringWithFormat:@"Controlled domains: %lu", (unsigned long)controlledDomains];
+}
+
+- (void) observeManagedObjectContext {
+    [self addObserver:self forKeyPath:@"model.managedObjectContext" options:0 context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"model.managedObjectContext"]) {
+        self.fetchedResultsController = nil;
+    }
 }
 
 @end

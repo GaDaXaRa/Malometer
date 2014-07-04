@@ -133,6 +133,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3F92678C1966F0A2006D6ABE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		3FC4F047196542DE0099DE0F /* Migration */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,6 +227,7 @@
 		3FD5F1C21961A00600488778 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				3F92678C1966F0A2006D6ABE /* Model */,
 				3FC4F047196542DE0099DE0F /* Migration */,
 				3FD5F194196166BA00488778 /* Malometer.xcdatamodeld */,
 				3FD5F1C71961A05200488778 /* Protocols */,
