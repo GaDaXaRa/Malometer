@@ -85,7 +85,6 @@
     _backgroundContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     _backgroundContext.parentContext = self.managedObjectContext;
     return _backgroundContext;
-    
 }
 
 - (NSManagedObjectContext *)rootContext {
@@ -155,7 +154,7 @@
 #pragma mark Fake importer
 
 - (void)importDataInMOC:(NSManagedObjectContext *)context {
-    [context performBlock:^{
+    [context performBlockAndWait:^{
         FreakType *category = [FreakType freakeTypeWithName:@"Evil Agent" inContext:context];
         
         for (int i = 0; i < 10000; i ++) {
@@ -165,6 +164,14 @@
         }
         
         [context save:NULL];
+        
+        [self.managedObjectContext performBlock:^{
+            [self.managedObjectContext save:NULL];
+            [self.rootContext performBlock:^{
+                [self.rootContext save:NULL];
+            }];
+            
+        }];
     }];
 }
 
